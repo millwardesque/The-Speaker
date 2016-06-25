@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour {
     public Vector2 initialAudienceSpawnContainerSize;
     public GameOver gameOverScreen;
 
+    bool m_levelLoaded = false;
+
     List<string> m_traits = new List<string> ();
     public List<string> Traits {
         get { return m_traits; }
@@ -58,12 +60,19 @@ public class GameManager : MonoBehaviour {
 
         Time.timeScale = 1f;
         m_concepts.Clear ();
+        m_levelLoaded = false;
 
         m_player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         m_audienceManager = FindObjectOfType<AudienceManager> ();
-
-        LoadLevelData (levelResource);
 	}
+
+    void Update() {
+        if (!m_levelLoaded) {
+            m_levelLoaded = true;
+            Debug.Log ("loading");
+            LoadLevelData (levelResource);
+        }
+    }
 
     void OnCountdownTimerElapsed(Message message) {
         OpenGameOverScreen ();
@@ -86,6 +95,7 @@ public class GameManager : MonoBehaviour {
             float conceptDuration = N ["concept_duration"].AsFloat;
             player.conceptDuration = conceptDuration;
 
+            // Load the concepts.
             var conceptArray = N["concepts"].AsArray;
             foreach (JSONNode concept in conceptArray) {
                 string name = concept["name"];
@@ -102,9 +112,23 @@ public class GameManager : MonoBehaviour {
                 CreateButton(newConcept);
             }
 
+            // Load the audience types.
+            Audience.AudienceTypes.Clear ();
+            var audienceTypeArray = N["audience_types"].AsArray;
+            foreach (JSONNode type in audienceTypeArray) {
+                string name = type["name"];
+                string prefabName = type["prefab_name"];
+                string primaryTrait = type["primary_trait"];
+                AudienceMember typePrefab = Resources.Load<AudienceMember>("Levels/" + prefabName);
+                if (typePrefab == null) {
+                    Debug.Log("Unable to load type prefab '" + prefabName + "'");
+                }
+                Audience.AudienceTypes.Add (name, new AudienceType(name, typePrefab, primaryTrait));
+            }
+
             int initialAudienceSize = N ["initial_audience_size"].AsInt;
             Audience.RemoveAllAudienceMembers ();
-            Audience.GenerateAudienceMembers (10, initialAudienceSpawnContainerOrigin, initialAudienceSpawnContainerSize);
+            Audience.GenerateAudienceMembers (initialAudienceSize, initialAudienceSpawnContainerOrigin, initialAudienceSpawnContainerSize);
         }
         else {
             Debug.LogError("Unable to load level data from JSON at '" + resourceName + "': There was an error opening the file.");

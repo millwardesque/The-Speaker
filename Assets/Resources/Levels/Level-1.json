@@ -15,11 +15,16 @@
     { "name": "Beg", "speech": "I'm so cold...", "trait": "pity", "value": 1.0 },
     { "name": "Beg", "speech": "*sob*", "trait": "pity", "value": 1.0 },
     { "name": "Beg", "speech": "Please. PLEASE. please...", "trait": "pity", "value": 1.0 },
-    { "name": "Polite", "speech": "Hello! D'you have any spare coins?", "trait": "Friendly", "value": 1.0 },
-    { "name": "Polite", "speech": "G'day! Could you spare a dime?", "trait": "Friendly", "value": 1.0 },
-    { "name": "Polite", "speech": "My name is Archibald. D'you have any change for a meal?", "trait": "Friendly", "value": 1.0 },
-    { "name": "Polite", "speech": "*smiles*", "trait": "Friendly", "value": 1.0 },
-    { "name": "Polite", "speech": "Those are some nice shoes!", "trait": "Friendly", "value": 1.0 },
-    { "name": "Polite", "speech": "Hiya! Any chance you could spare some money for a sandwich?", "trait": "Friendly", "value": 1.0 },
+    { "name": "Polite", "speech": "Hello! D'you have any spare coins?", "trait": "friendly", "value": 1.0 },
+    { "name": "Polite", "speech": "G'day! Could you spare a dime?", "trait": "friendly", "value": 1.0 },
+    { "name": "Polite", "speech": "My name is Archibald. D'you have any change for a meal?", "trait": "friendly", "value": 1.0 },
+    { "name": "Polite", "speech": "*smiles*", "trait": "friendly", "value": 1.0 },
+    { "name": "Polite", "speech": "Those are some nice shoes!", "trait": "friendly", "value": 1.0 },
+    { "name": "Polite", "speech": "Hiya! Any chance you could spare some money for a sandwich?", "trait": "friendly", "value": 1.0 },
+  ],
+  audience_types: [
+    { "name": "elderly", prefab_name: "Audience-Elderly", primary_trait: "sympathy" },
+    { "name": "mom", prefab_name: "Audience-Mom", primary_trait: "pity" },
+    { "name": "business-man", prefab_name: "Audience-BusinessMan", primary_trait: "friendly" }
   ]
 }

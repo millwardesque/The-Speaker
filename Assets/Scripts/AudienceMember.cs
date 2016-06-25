@@ -7,7 +7,7 @@ public class AudienceMember : MonoBehaviour {
     public float walkSpeed = 1f;
     public float interestThreshold = 0f;
 
-    Animator m_animator;
+    Animator[] m_animators;
 
     Dictionary<string, float> m_interests;
     public Dictionary<string, float> Interests {
@@ -48,7 +48,7 @@ public class AudienceMember : MonoBehaviour {
 
     // Use this for initialization
 	void Start () {
-        m_animator = GetComponentInChildren<Animator> ();
+        m_animators = GetComponentsInChildren<Animator> ();
 	}
 	
 	// Update is called once per frame
@@ -79,51 +79,15 @@ public class AudienceMember : MonoBehaviour {
 	}
 
     void TriggerAnimationIfNotActive(string animationName) {
-        if (!m_animator.GetCurrentAnimatorStateInfo(0).IsName(animationName)) {
-            m_animator.SetTrigger (animationName);
+        for (int i = 0; i < m_animators.Length; ++i) {
+            if (!m_animators[i].GetCurrentAnimatorStateInfo(0).IsName(animationName)) {
+                m_animators[i].SetTrigger (animationName);
+            }    
         }
     }
 
     public bool IsInterested() {
         return CurrentInterest >= interestThreshold;
-    }
-
-    public void GenerateTraits(List<string> traits) {
-        m_interests.Clear ();
-
-        int traitsPerSide = traits.Count / 2;
-        List<float> traitValues = new List<float> ();
-
-        // Generate an even number of positive and negative traits per side
-        for (int i = 0; i < traitsPerSide; ++i) {
-            float value = Random.Range (-1f, 0f);
-            traitValues.Add (value);
-        }
-        for (int i = 0; i < traitsPerSide; ++i) {
-            float value = Random.Range (0, 1f);
-            traitValues.Add (value);
-        }
-        while (traitValues.Count < traits.Count) {
-            float value = Random.Range (-1f, 1f);
-            traitValues.Add (value);
-        }
-
-        // Shuffle the list of trait values.
-        // Taken from: http://stackoverflow.com/a/1262619
-        System.Random rng = new System.Random();  
-        int n = traitValues.Count;  
-        while (n > 1) {  
-            n--;  
-            int k = rng.Next(n + 1);  
-            float value = traitValues[k];
-            traitValues[k] = traitValues[n];  
-            traitValues[n] = value;  
-        }
-
-        for (int i = 0; i < traits.Count; ++i) {
-            // @TODO Normalize the trait values while assigning them...
-            m_interests [traits [i]] = traitValues [i];
-        }
     }
 
     public void OnTriggerEnter2D(Collider2D col) {
