@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Player : MonoBehaviour {
@@ -19,10 +20,12 @@ public class Player : MonoBehaviour {
     }
     public void Speak(string concept) {
         m_speechBubble.SetActive (true);
+        m_speechBubble.GetComponentInChildren<Text>().text = concept;
         m_isSpeaking = true;
     }
 
     public void StopSpeaking() {
+        m_speechBubble.GetComponentInChildren<Text> ().text = "";
         m_speechBubble.SetActive (false);
         m_isSpeaking = false;
         m_speechMessageElapsed = 0f;

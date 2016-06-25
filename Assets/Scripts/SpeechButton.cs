@@ -14,5 +14,6 @@ public class SpeechButton : MonoBehaviour {
         Dictionary<string, object> messageData = new Dictionary<string, object> ();
         messageData ["concept"] = concept;
         MessageManager.Instance.SendMessage (new Message(this, "ButtonPushed", messageData));
+        GameObject.Destroy (gameObject);
     }
 }
