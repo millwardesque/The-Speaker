@@ -90,9 +90,39 @@ public class AudienceMember : MonoBehaviour {
 
     public void GenerateTraits(List<string> traits) {
         m_interests.Clear ();
-        for (int i = 0; i < traits.Count; ++i) {
+
+        int traitsPerSide = traits.Count / 2;
+        List<float> traitValues = new List<float> ();
+
+        // Generate an even number of positive and negative traits per side
+        for (int i = 0; i < traitsPerSide; ++i) {
+            float value = Random.Range (-1f, 0f);
+            traitValues.Add (value);
+        }
+        for (int i = 0; i < traitsPerSide; ++i) {
+            float value = Random.Range (0, 1f);
+            traitValues.Add (value);
+        }
+        while (traitValues.Count < traits.Count) {
             float value = Random.Range (-1f, 1f);
-            m_interests [traits [i]] = value;
+            traitValues.Add (value);
+        }
+
+        // Shuffle the list of trait values.
+        // Taken from: http://stackoverflow.com/a/1262619
+        System.Random rng = new System.Random();  
+        int n = traitValues.Count;  
+        while (n > 1) {  
+            n--;  
+            int k = rng.Next(n + 1);  
+            float value = traitValues[k];
+            traitValues[k] = traitValues[n];  
+            traitValues[n] = value;  
+        }
+
+        for (int i = 0; i < traits.Count; ++i) {
+            // @TODO Normalize the trait values while assigning them...
+            m_interests [traits [i]] = traitValues [i];
         }
     }
 

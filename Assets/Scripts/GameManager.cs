@@ -102,6 +102,7 @@ public class GameManager : MonoBehaviour {
                 CreateButton(newConcept);
             }
 
+            int initialAudienceSize = N ["initial_audience_size"].AsInt;
             Audience.RemoveAllAudienceMembers ();
             Audience.GenerateAudienceMembers (10, initialAudienceSpawnContainerOrigin, initialAudienceSpawnContainerSize);
         }
