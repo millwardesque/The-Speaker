@@ -4,5 +4,7 @@
     { "name": "Peace", "speech": "Let's sing songs!", "trait": "democrat", "value": 1.0 },
     { "name": "Imperialism", "speech": "This is our world!", "trait": "democrat", "value": -1.0 },
     { "name": "Big Government", "speech": "We know what's best for you", "trait": "democrat", "value": 1.0 }
+    { "name": "Airplane food", "speech": "What's the deal...", "trait": "jokes", "value": -1.0 }
+    { "name": "Airplane!", "speech": "Surely you can't be serious", "trait": "jokes", "value": 1.0 }
   ]
 }

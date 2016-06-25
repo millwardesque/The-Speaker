@@ -255,7 +255,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_speechBubble: {fileID: 106950}
   speechMessageDuration: 3
-  conceptDuration: 3
+  conceptDuration: 5
 --- !u!212 &21224926
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -54,7 +54,7 @@ public class AudienceMember : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Vector3 distanceToPlayer = GameManager.Instance.player.transform.position - transform.position;
-        if (distanceToPlayer.magnitude >= minDistanceFromPlayer) {
+        if (distanceToPlayer.magnitude >= minDistanceFromPlayer || !IsInterested ()) {
             Vector3 direction = distanceToPlayer.normalized;
             if (!IsInterested ()) {
                 direction *= -1f;

@@ -3,11 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using SimpleJSON;
 
-public class GameManager : MonoBehaviour {
-    Player m_player;
+public class GameManager : MonoBehaviour {    
     public string levelResource;
     public GameObject buttonContainer;
     public SpeechButton buttonPrefab;
+
+    List<string> m_traits = new List<string> ();
+    public List<string> Traits {
+        get { return m_traits; }
+    }
 
     Dictionary<string, SpeechConcept> m_concepts;
     public Dictionary<string, SpeechConcept> Concepts {
@@ -16,8 +20,14 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager Instance = null;
 
+    Player m_player;
     public Player player {
         get { return m_player; }
+    }
+
+    AudienceManager m_audienceManager;
+    public AudienceManager Audience {
+        get { return m_audienceManager; }
     }
 
     void Awake() {
@@ -36,6 +46,7 @@ public class GameManager : MonoBehaviour {
         MessageManager.Instance.AddListener ("CountdownTimerElapsed", OnCountdownTimerElapsed);
         MessageManager.Instance.AddListener ("ButtonPushed", OnButtonPushed);
         m_player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        m_audienceManager = FindObjectOfType<AudienceManager> ();
         m_concepts.Clear ();
 
         LoadLevel (levelResource);
@@ -55,7 +66,6 @@ public class GameManager : MonoBehaviour {
             string fileContents = jsonAsset.text;
             var N = JSON.Parse(fileContents);
 
-            List<string> traits = new List<string> ();
             var conceptArray = N["concepts"].AsArray;
             foreach (JSONNode concept in conceptArray) {
                 string name = concept["name"];
@@ -63,8 +73,8 @@ public class GameManager : MonoBehaviour {
                 string trait = concept["trait"];
                 float value = concept ["value"].AsFloat;
 
-                if (!traits.Contains (trait)) {
-                    traits.Add (trait);
+                if (!m_traits.Contains (trait)) {
+                    m_traits.Add (trait);
                 }
 
                 SpeechConcept newConcept = new SpeechConcept(name, speech, trait, value);
@@ -72,11 +82,7 @@ public class GameManager : MonoBehaviour {
                 CreateButton(newConcept);
             }
 
-            // Generate traits for each audience member.
-            AudienceMember[] audience = FindObjectsOfType<AudienceMember> ();
-            foreach (AudienceMember member in audience) {
-                member.GenerateTraits (traits);
-            }
+            Audience.GenerateAudienceMembers (10, new Vector2(0f, -2f), new Vector2(6f, 3f));
         }
         else {
             Debug.LogError("Unable to load level data from JSON at '" + resourceName + "': There was an error opening the file.");
