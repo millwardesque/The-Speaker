@@ -25,7 +25,7 @@ public class SpeechButton : MonoBehaviour {
 
     public void Initialize(SpeechConcept concept) {
         m_concept = concept;
-        UpdateButton();                
+        UpdateButton();
     }
 
     void UpdateButton() {
