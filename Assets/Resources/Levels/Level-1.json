@@ -1,0 +1,24 @@
+﻿{
+  "level_duration": 60,
+  "concept_duration": 5,
+  "concepts": [
+    { "name": "My Story", "speech": "My name is Archibald Jefferson King. Would you like to hear my story?", "trait": "sympathy", "value": 1.0 },
+    { "name": "My Story", "speech": "My dad died in the Golden War", "trait": "sympathy", "value": 1.0 },
+    { "name": "My Story", "speech": "My ma died during child birth", "trait": "sympathy", "value": 1.0 },
+    { "name": "My Story", "speech": "I spent my earliest years in an orphanage", "trait": "sympathy", "value": 1.0 },
+    { "name": "My Story", "speech": "Vincent, another orphan, beat me up every day", "trait": "sympathy", "value": 1.0 },
+    { "name": "My Story", "speech": "Vincent set the orphanage on fire and blamed me", "trait": "sympathy", "value": 1.0 },
+    { "name": "My Story", "speech": "I got kicked out and have been on the streets ever since", "trait": "sympathy", "value": 1.0 },
+    { "name": "Beg", "speech": "I'm so hungry...", "trait": "pity", "value": 1.0 },
+    { "name": "Beg", "speech": "I'm tired. So tired...", "trait": "pity", "value": 1.0 },
+    { "name": "Beg", "speech": "I'm so cold...", "trait": "pity", "value": 1.0 },
+    { "name": "Beg", "speech": "*sob*", "trait": "pity", "value": 1.0 },
+    { "name": "Beg", "speech": "Please. PLEASE. please...", "trait": "pity", "value": 1.0 },
+    { "name": "Polite", "speech": "Hello! D'you have any spare coins?", "trait": "Friendly", "value": 1.0 },
+    { "name": "Polite", "speech": "G'day! Could you spare a dime?", "trait": "Friendly", "value": 1.0 },
+    { "name": "Polite", "speech": "My name is Archibald. D'you have any change for a meal?", "trait": "Friendly", "value": 1.0 },
+    { "name": "Polite", "speech": "*smiles*", "trait": "Friendly", "value": 1.0 },
+    { "name": "Polite", "speech": "Those are some nice shoes!", "trait": "Friendly", "value": 1.0 },
+    { "name": "Polite", "speech": "Hiya! Any chance you could spare some money for a sandwich?", "trait": "Friendly", "value": 1.0 },
+  ]
+}

@@ -79,6 +79,13 @@ public class GameManager : MonoBehaviour {
             string fileContents = jsonAsset.text;
             var N = JSON.Parse(fileContents);
 
+            float levelDuration = N ["level_duration"].AsFloat;
+            FindObjectOfType<CountdownTimer> ().duration = levelDuration;
+            FindObjectOfType<CountdownTimer> ().ResetTimer ();
+
+            float conceptDuration = N ["concept_duration"].AsFloat;
+            player.conceptDuration = conceptDuration;
+
             var conceptArray = N["concepts"].AsArray;
             foreach (JSONNode concept in conceptArray) {
                 string name = concept["name"];

@@ -44,7 +44,7 @@ public class CountdownTimer : MonoBehaviour {
         MessageManager.Instance.SendMessage (new Message(this, "CountdownTimerElapsed", null));
     }
 
-    void ResetTimer() {
+    public void ResetTimer() {
         m_remaining = duration;
         m_hasElapsed = false;
     }

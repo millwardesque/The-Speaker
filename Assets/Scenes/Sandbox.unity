@@ -180,6 +180,10 @@ Prefab:
       propertyPath: gameOverScreen
       value: 
       objectReference: {fileID: 930862984}
+    - target: {fileID: 11459554, guid: 67e49333b821e4df9a7339516b754b29, type: 2}
+      propertyPath: levelResource
+      value: Levels/Level-1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 67e49333b821e4df9a7339516b754b29, type: 2}
   m_IsPrefabParent: 0

@@ -1,4 +1,6 @@
 {
+  "level_duration": 30,
+  "concept_duration": 10,
   "concepts": [
     { "name": "War", "speech": "GUNS GUNS GUNS!", "trait": "democrat", "value": -1.0 },
     { "name": "Peace", "speech": "Let's sing songs!", "trait": "democrat", "value": 1.0 },
