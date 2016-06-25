@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour {
     public string levelResource;
     public GameObject buttonContainer;
     public SpeechButton buttonPrefab;
+    public Vector2 initialAudienceSpawnContainerOrigin;
+    public Vector2 initialAudienceSpawnContainerSize;
 
     List<string> m_traits = new List<string> ();
     public List<string> Traits {
@@ -82,7 +84,7 @@ public class GameManager : MonoBehaviour {
                 CreateButton(newConcept);
             }
 
-            Audience.GenerateAudienceMembers (10, new Vector2(0f, -2f), new Vector2(6f, 3f));
+            Audience.GenerateAudienceMembers (10, initialAudienceSpawnContainerOrigin, initialAudienceSpawnContainerSize);
         }
         else {
             Debug.LogError("Unable to load level data from JSON at '" + resourceName + "': There was an error opening the file.");
