@@ -95,4 +95,10 @@ public class AudienceMember : MonoBehaviour {
             m_interests [traits [i]] = value;
         }
     }
+
+    public void OnTriggerEnter2D(Collider2D col) {
+        if (col.tag == "Audience Out-of-bounds") {
+            Destroy (gameObject);
+        }
+    }
 }

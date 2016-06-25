@@ -374,6 +374,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 11494328, guid: 374fcdeebcaf94a0891e2265e520d259, type: 2}
+      propertyPath: spawnContainerOrigin.y
+      value: -3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 374fcdeebcaf94a0891e2265e520d259, type: 2}
   m_IsPrefabParent: 0
@@ -1045,10 +1049,6 @@ Prefab:
     - target: {fileID: 22401946, guid: 5c53ba385a8e14a49af5a11b9816f3f1, type: 2}
       propertyPath: m_Pivot.y
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 11424586, guid: 5c53ba385a8e14a49af5a11b9816f3f1, type: 2}
-      propertyPath: duration
-      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5c53ba385a8e14a49af5a11b9816f3f1, type: 2}

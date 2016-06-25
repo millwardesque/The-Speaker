@@ -45,7 +45,7 @@ MonoBehaviour:
   buttonContainer: {fileID: 0}
   buttonPrefab: {fileID: 11450988, guid: 707b9a48fff994e458c8ddf0f53edf9c, type: 2}
   initialAudienceSpawnContainerOrigin: {x: 0, y: -2}
-  initialAudienceSpawnContainerSize: {x: 6, y: 3}
+  initialAudienceSpawnContainerSize: {x: 18, y: 3}
   gameOverScreen: {fileID: 0}
 --- !u!114 &11471484
 MonoBehaviour:
