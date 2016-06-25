@@ -48,7 +48,6 @@ public class AudienceManager : MonoBehaviour {
     }
 
     public void GenerateAudienceMembers(int numMembers, Vector2 containerOrigin, Vector2 containerSize) {
-        Debug.Log ("Generating...");
         for (int i = 0; i < numMembers; i++) {
             GenerateAudienceMember ("Audience", containerOrigin, containerSize);
         }
@@ -92,8 +91,6 @@ public class AudienceManager : MonoBehaviour {
         float y = Random.Range (minY, maxY);
         newMember.transform.position = new Vector3 (x, y, transform.position.z);
         m_spawnCounter++;
-
-        Debug.Log (newMember.name + ": " + newMember.Interests.Count);
     }
 
     public AudienceMember[] GetAudienceMembers() {

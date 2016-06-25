@@ -83,6 +83,7 @@ GameObject:
   - 114: {fileID: 11449038}
   - 61: {fileID: 6154814}
   - 50: {fileID: 5017780}
+  - 114: {fileID: 11438250}
   m_Layer: 0
   m_Name: Audience-BusinessMan
   m_TagString: Untagged
@@ -272,6 +273,17 @@ MonoBehaviour:
   newSprite: {fileID: 2800000, guid: fa52036c65a8f89469a1d945d2bc80a2, type: 3}
   folderPath: Retro 2D Characters/Spritesheets/Male/5 - Hairstyles/Shark/
   useColorOutline: 1
+--- !u!114 &11438250
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 141646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9425d0ffff494d26965c10e9ba7f68d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11449038
 MonoBehaviour:
   m_ObjectHideFlags: 1

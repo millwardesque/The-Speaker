@@ -17,8 +17,11 @@ public class Player : MonoBehaviour {
     float m_speechMessageElapsed;
     bool m_isSpeaking;
 
+    AnimatedSprite m_animator;
+
     void Awake() {
         m_activeConcepts = new Dictionary<string, float> ();
+        m_animator = GetComponent<AnimatedSprite> ();
     }
 
     void Start() {
@@ -55,6 +58,7 @@ public class Player : MonoBehaviour {
         m_speechBubble.SetActive (true);
         m_speechBubble.GetComponentInChildren<Text>().text = concept.speech;
         m_isSpeaking = true;
+        m_animator.TriggerAnimationIfNotActive ("Speak Down");
     
         if (!m_activeConcepts.ContainsKey (concept.name)) {
             m_activeConcepts[concept.name] = conceptDuration;
@@ -69,6 +73,8 @@ public class Player : MonoBehaviour {
         m_speechBubble.SetActive (false);
         m_isSpeaking = false;
         m_speechMessageElapsed = 0f;
+
+        m_animator.TriggerAnimationIfNotActive ("Stand Down");
     }
 
     public List<SpeechConcept> FindActiveConceptsWithTrait(string trait) {

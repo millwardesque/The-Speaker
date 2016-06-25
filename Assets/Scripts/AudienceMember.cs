@@ -7,7 +7,7 @@ public class AudienceMember : MonoBehaviour {
     public float walkSpeed = 1f;
     public float interestThreshold = 0f;
 
-    Animator[] m_animators;
+    AnimatedSprite m_animator;
 
     Dictionary<string, float> m_interests;
     public Dictionary<string, float> Interests {
@@ -48,7 +48,7 @@ public class AudienceMember : MonoBehaviour {
 
     // Use this for initialization
 	void Start () {
-        m_animators = GetComponentsInChildren<Animator> ();
+        m_animator = GetComponent<AnimatedSprite> ();
 	}
 	
 	// Update is called once per frame
@@ -63,48 +63,40 @@ public class AudienceMember : MonoBehaviour {
 
             if (Mathf.Abs (direction.x) > Mathf.Abs(direction.y)) {
                 if (direction.x > 0f) {
-                    TriggerAnimationIfNotActive ("Walk Right");
+                    m_animator.TriggerAnimationIfNotActive ("Walk Right");
                 }
                 else if (direction.x < 0f) {
-                    TriggerAnimationIfNotActive ("Walk Left");
+                    m_animator.TriggerAnimationIfNotActive ("Walk Left");
                 }
             }
             else {
                 if (direction.y > 0f) {
-                    TriggerAnimationIfNotActive ("Walk Up");
+                    m_animator.TriggerAnimationIfNotActive ("Walk Up");
                 }
                 else if (direction.y < 0f) {
-                    TriggerAnimationIfNotActive ("Walk Down");
+                    m_animator.TriggerAnimationIfNotActive ("Walk Down");
                 }
             }
         }
         else {
             if (Mathf.Abs (direction.x) > Mathf.Abs(direction.y)) {
                 if (direction.x > 0f) {
-                    TriggerAnimationIfNotActive ("Stand Right");
+                    m_animator.TriggerAnimationIfNotActive ("Stand Right");
                 }
                 else if (direction.x < 0f) {
-                    TriggerAnimationIfNotActive ("Stand Left");
+                    m_animator.TriggerAnimationIfNotActive ("Stand Left");
                 }
             }
             else {
                 if (direction.y > 0f) {
-                    TriggerAnimationIfNotActive ("Stand Up");
+                    m_animator.TriggerAnimationIfNotActive ("Stand Up");
                 }
                 else if (direction.y < 0f) {
-                    TriggerAnimationIfNotActive ("Stand Down");
+                    m_animator.TriggerAnimationIfNotActive ("Stand Down");
                 }
             }
         }
 	}
-
-    void TriggerAnimationIfNotActive(string animationName) {
-        for (int i = 0; i < m_animators.Length; ++i) {
-            if (!m_animators[i].GetCurrentAnimatorStateInfo(0).IsName(animationName)) {
-                m_animators[i].SetTrigger (animationName);
-            }    
-        }
-    }
 
     public bool IsInterested() {
         return CurrentInterest >= interestThreshold;

@@ -69,7 +69,6 @@ public class GameManager : MonoBehaviour {
     void Update() {
         if (!m_levelLoaded) {
             m_levelLoaded = true;
-            Debug.Log ("loading");
             LoadLevelData (levelResource);
         }
     }
