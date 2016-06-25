@@ -41,7 +41,16 @@ public class AudienceManager : MonoBehaviour {
         float y = Random.Range (minY, maxY);
         newMember.transform.position = new Vector3 (x, y, transform.position.z);
         m_spawnCounter++;
+    }
 
-        Debug.Log ("Spawned audience at " + newMember.transform.position);
+    public AudienceMember[] GetAudienceMembers() {
+        return GetComponentsInChildren<AudienceMember>();
+    }
+
+    public void RemoveAllAudienceMembers() {
+        AudienceMember[] members = GetAudienceMembers ();
+        for (int i = 0; i < members.Length; ++i) {
+            Destroy (members [i].gameObject);
+        }
     }
 }

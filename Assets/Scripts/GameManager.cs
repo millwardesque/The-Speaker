@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 using SimpleJSON;
@@ -9,6 +10,7 @@ public class GameManager : MonoBehaviour {
     public SpeechButton buttonPrefab;
     public Vector2 initialAudienceSpawnContainerOrigin;
     public Vector2 initialAudienceSpawnContainerSize;
+    public GameOver gameOverScreen;
 
     List<string> m_traits = new List<string> ();
     public List<string> Traits {
@@ -27,6 +29,11 @@ public class GameManager : MonoBehaviour {
         get { return m_player; }
     }
 
+    ScoreKeeper m_scoreKeeper;
+    public ScoreKeeper Score {
+        get { return m_scoreKeeper; }
+    }
+
     AudienceManager m_audienceManager;
     public AudienceManager Audience {
         get { return m_audienceManager; }
@@ -37,6 +44,7 @@ public class GameManager : MonoBehaviour {
             Instance = this;
 
             m_concepts = new Dictionary<string, SpeechConcept>();
+            m_scoreKeeper = GetComponent<ScoreKeeper> ();
         }
         else {
             GameObject.Destroy (gameObject);
@@ -47,22 +55,25 @@ public class GameManager : MonoBehaviour {
 	void Start () {
         MessageManager.Instance.AddListener ("CountdownTimerElapsed", OnCountdownTimerElapsed);
         MessageManager.Instance.AddListener ("ButtonPushed", OnButtonPushed);
-        m_player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-        m_audienceManager = FindObjectOfType<AudienceManager> ();
+
+        Time.timeScale = 1f;
         m_concepts.Clear ();
 
-        LoadLevel (levelResource);
+        m_player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        m_audienceManager = FindObjectOfType<AudienceManager> ();
+
+        LoadLevelData (levelResource);
 	}
 
     void OnCountdownTimerElapsed(Message message) {
-        Debug.Log ("Countdown expired!");
+        OpenGameOverScreen ();
     }
 
     void OnButtonPushed(Message message) {
         m_player.Speak (((SpeechConcept)message.data["concept"]));
     }
 
-    void LoadLevel(string resourceName) {
+    void LoadLevelData(string resourceName) {
         TextAsset jsonAsset = Resources.Load<TextAsset>(resourceName);
         if (jsonAsset != null) {
             string fileContents = jsonAsset.text;
@@ -84,6 +95,7 @@ public class GameManager : MonoBehaviour {
                 CreateButton(newConcept);
             }
 
+            Audience.RemoveAllAudienceMembers ();
             Audience.GenerateAudienceMembers (10, initialAudienceSpawnContainerOrigin, initialAudienceSpawnContainerSize);
         }
         else {
@@ -95,5 +107,15 @@ public class GameManager : MonoBehaviour {
         SpeechButton newButton = Instantiate<SpeechButton>(buttonPrefab);
         newButton.Initialize(concept);
         newButton.transform.SetParent(buttonContainer.transform, false);
+    }
+
+    public void OpenGameOverScreen() {
+        Time.timeScale = 0f;
+        gameOverScreen.gameObject.SetActive (true);
+        gameOverScreen.UpdateValues (Score.Score);
+    }
+
+    public void RestartGame() {
+        SceneManager.LoadScene (SceneManager.GetActiveScene ().name);
     }
 }

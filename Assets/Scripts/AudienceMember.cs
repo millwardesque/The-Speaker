@@ -84,7 +84,7 @@ public class AudienceMember : MonoBehaviour {
         }
     }
 
-    bool IsInterested() {
+    public bool IsInterested() {
         return CurrentInterest >= interestThreshold;
     }
 

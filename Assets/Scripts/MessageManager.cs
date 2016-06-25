@@ -26,7 +26,7 @@ public class MessageManager : MonoBehaviour {
             Instance = this;
         }
         else {
-            Destroy (gameObject);
+            Destroy (this);
         }
     }
 
