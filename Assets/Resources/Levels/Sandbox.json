@@ -1,0 +1,8 @@
+{
+  "concepts": [
+    { "name": "War", "speech": "GUNS GUNS GUNS!" },
+    { "name": "Peace", "speech": "Let's sing songs!" },
+    { "name": "Imperialism", "speech": "This is our world!" },
+    { "name": "Nihilism", "speech": "You should all just go home..." }
+  ]
+}
