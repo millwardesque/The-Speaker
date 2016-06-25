@@ -6,12 +6,14 @@ using SimpleJSON;
 public class GameManager : MonoBehaviour {
     Player m_player;
     public string levelResource;
+    List<SpeechConcept> m_concepts;
 
 	// Use this for initialization
 	void Start () {
         MessageManager.Instance.AddListener ("CountdownTimerElapsed", OnCountdownTimerElapsed);
         MessageManager.Instance.AddListener ("ButtonPushed", OnButtonPushed);
         m_player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        m_concepts = new List<SpeechConcept>();
 
         LoadLevel (levelResource);
 	}
@@ -38,6 +40,7 @@ public class GameManager : MonoBehaviour {
                 Debug.Log (string.Format ("{0}: {1}", name, speech));
 
                 // @TODO Do something with this data.
+                m_concepts.Add(new SpeechConcept(name, speech));
             }
         }
         else {
