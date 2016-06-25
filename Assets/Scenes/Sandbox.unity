@@ -374,10 +374,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 11494328, guid: 374fcdeebcaf94a0891e2265e520d259, type: 2}
-      propertyPath: spawnContainerOrigin.y
-      value: -3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 374fcdeebcaf94a0891e2265e520d259, type: 2}
   m_IsPrefabParent: 0
