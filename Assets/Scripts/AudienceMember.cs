@@ -54,26 +54,46 @@ public class AudienceMember : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         Vector3 distanceToPlayer = GameManager.Instance.player.transform.position - transform.position;
+        Vector3 direction = distanceToPlayer.normalized;
         if (distanceToPlayer.magnitude >= minDistanceFromPlayer || !IsInterested ()) {
-            Vector3 direction = distanceToPlayer.normalized;
             if (!IsInterested ()) {
                 direction *= -1f;
             }
             transform.position += direction * walkSpeed * Time.deltaTime;
 
-            if (direction.y > 0f) {
-                TriggerAnimationIfNotActive ("Walk Up");
+            if (Mathf.Abs (direction.x) > Mathf.Abs(direction.y)) {
+                if (direction.x > 0f) {
+                    TriggerAnimationIfNotActive ("Walk Right");
+                }
+                else if (direction.x < 0f) {
+                    TriggerAnimationIfNotActive ("Walk Left");
+                }
             }
-            else if (direction.y < 0f) {
-                TriggerAnimationIfNotActive ("Walk Down");
+            else {
+                if (direction.y > 0f) {
+                    TriggerAnimationIfNotActive ("Walk Up");
+                }
+                else if (direction.y < 0f) {
+                    TriggerAnimationIfNotActive ("Walk Down");
+                }
             }
         }
         else {
-            if (IsInterested ()) {
-                TriggerAnimationIfNotActive ("Stand Up");
+            if (Mathf.Abs (direction.x) > Mathf.Abs(direction.y)) {
+                if (direction.x > 0f) {
+                    TriggerAnimationIfNotActive ("Stand Right");
+                }
+                else if (direction.x < 0f) {
+                    TriggerAnimationIfNotActive ("Stand Left");
+                }
             }
             else {
-                TriggerAnimationIfNotActive ("Stand Down");
+                if (direction.y > 0f) {
+                    TriggerAnimationIfNotActive ("Stand Up");
+                }
+                else if (direction.y < 0f) {
+                    TriggerAnimationIfNotActive ("Stand Down");
+                }
             }
         }
 	}
