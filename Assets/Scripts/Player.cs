@@ -19,6 +19,7 @@ public class Player : MonoBehaviour {
         }   
     }
     public void Speak(string concept) {
+        m_speechMessageElapsed = 0f;
         m_speechBubble.SetActive (true);
         m_speechBubble.GetComponentInChildren<Text>().text = concept;
         m_isSpeaking = true;

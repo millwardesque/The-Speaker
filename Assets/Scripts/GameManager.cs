@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour {
     Player m_player;
     public string levelResource;
     List<SpeechConcept> m_concepts;
+    public GameObject buttonContainer;
+    public SpeechButton buttonPrefab;
 
 	// Use this for initialization
 	void Start () {
@@ -23,8 +25,7 @@ public class GameManager : MonoBehaviour {
     }
 
     void OnButtonPushed(Message message) {
-        Debug.Log (string.Format("Button pushed: {0}", message.data["concept"]));
-        m_player.Speak (message.data["concept"].ToString ());
+        m_player.Speak (((SpeechConcept)message.data["concept"]).speech);
     }
 
     void LoadLevel(string resourceName) {
@@ -39,12 +40,19 @@ public class GameManager : MonoBehaviour {
 
                 Debug.Log (string.Format ("{0}: {1}", name, speech));
 
-                // @TODO Do something with this data.
-                m_concepts.Add(new SpeechConcept(name, speech));
+                SpeechConcept newConcept = new SpeechConcept(name, speech);
+                m_concepts.Add(newConcept);
+                CreateButton(newConcept);
             }
         }
         else {
             Debug.LogError("Unable to load level data from JSON at '" + resourceName + "': There was an error opening the file.");
         }
+    }
+
+    void CreateButton(SpeechConcept concept) {
+        SpeechButton newButton = Instantiate<SpeechButton>(buttonPrefab);
+        newButton.Initialize(concept);
+        newButton.transform.SetParent(buttonContainer.transform, false);
     }
 }
