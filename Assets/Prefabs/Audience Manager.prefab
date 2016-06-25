@@ -41,9 +41,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audiencePrefab: {fileID: 11449038, guid: 1cb061a912de84894ab92fcf024d1a54, type: 2}
-  audienceSpawnTime: 5
-  spawnContainerOrigin: {x: 0, y: -2}
-  spawnContainerSize: {x: 6, y: 3}
+  audienceSpawnTime: 3
+  spawnContainerOrigin: {x: 0, y: -4}
+  spawnContainerSize: {x: 12, y: 1}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

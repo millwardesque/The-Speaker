@@ -43,6 +43,8 @@ MonoBehaviour:
   levelResource: Levels/Sandbox
   buttonContainer: {fileID: 0}
   buttonPrefab: {fileID: 11450988, guid: 707b9a48fff994e458c8ddf0f53edf9c, type: 2}
+  initialAudienceSpawnContainerOrigin: {x: 0, y: -2}
+  initialAudienceSpawnContainerSize: {x: 6, y: 3}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
