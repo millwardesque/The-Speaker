@@ -184,6 +184,14 @@ Prefab:
       propertyPath: levelResource
       value: Levels/Level-1
       objectReference: {fileID: 0}
+    - target: {fileID: 11459554, guid: 67e49333b821e4df9a7339516b754b29, type: 2}
+      propertyPath: initialAudienceSpawnContainerOrigin.y
+      value: -3
+      objectReference: {fileID: 0}
+    - target: {fileID: 11459554, guid: 67e49333b821e4df9a7339516b754b29, type: 2}
+      propertyPath: initialAudienceSpawnContainerSize.y
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 67e49333b821e4df9a7339516b754b29, type: 2}
   m_IsPrefabParent: 0
@@ -377,6 +385,14 @@ Prefab:
     - target: {fileID: 400320, guid: 374fcdeebcaf94a0891e2265e520d259, type: 2}
       propertyPath: m_RootOrder
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 11494328, guid: 374fcdeebcaf94a0891e2265e520d259, type: 2}
+      propertyPath: audienceSpawnTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11494328, guid: 374fcdeebcaf94a0891e2265e520d259, type: 2}
+      propertyPath: spawnContainerSize.y
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 374fcdeebcaf94a0891e2265e520d259, type: 2}
@@ -1155,10 +1171,6 @@ Prefab:
     - target: {fileID: 473980, guid: 8ddf8d3d47fe94b30abebe897ff29eea, type: 2}
       propertyPath: m_RootOrder
       value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 106950, guid: 8ddf8d3d47fe94b30abebe897ff29eea, type: 2}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 8ddf8d3d47fe94b30abebe897ff29eea, type: 2}

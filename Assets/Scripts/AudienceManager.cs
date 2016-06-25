@@ -82,6 +82,7 @@ public class AudienceManager : MonoBehaviour {
         newMember.transform.SetParent (transform, true);
         newMember.name = name + " (" + m_spawnCounter + ")";
         newMember.Interests = interests;
+        newMember.walkSpeed *= Random.Range (0.8f, 1.2f);
 
         float minX = containerOrigin.x - containerSize.x / 2f;
         float maxX = containerOrigin.x + containerSize.x / 2f;
@@ -90,6 +91,13 @@ public class AudienceManager : MonoBehaviour {
         float x = Random.Range (minX, maxX);
         float y = Random.Range (minY, maxY);
         newMember.transform.position = new Vector3 (x, y, transform.position.z);
+        if (x < 0) {
+            newMember.walkingDirection = new Vector2 (1f, 0f);
+        }
+        else {
+            newMember.walkingDirection = new Vector2 (-1f, 0f);
+        }
+
         m_spawnCounter++;
     }
 

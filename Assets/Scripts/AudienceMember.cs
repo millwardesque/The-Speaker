@@ -6,6 +6,7 @@ public class AudienceMember : MonoBehaviour {
     public float minDistanceFromPlayer = 2f;
     public float walkSpeed = 1f;
     public float interestThreshold = 0f;
+    public Vector2 walkingDirection;
 
     AnimatedSprite m_animator;
 
@@ -57,7 +58,7 @@ public class AudienceMember : MonoBehaviour {
         Vector3 direction = distanceToPlayer.normalized;
         if (distanceToPlayer.magnitude >= minDistanceFromPlayer || !IsInterested ()) {
             if (!IsInterested ()) {
-                direction *= -1f;
+                direction = walkingDirection;
             }
             transform.position += direction * walkSpeed * Time.deltaTime;
 
