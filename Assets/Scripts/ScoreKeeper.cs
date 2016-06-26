@@ -48,7 +48,7 @@ public class ScoreKeeper : MonoBehaviour {
 
     void UpdateScore() {
         foreach (AudienceMember member in m_inRangeScorers) {
-            if (member.IsInterested()) {
+            if (member.State == AudienceMemberState.Hooked) {
                 Score += pointsPerInterestedAudienceMember;
             }
         }

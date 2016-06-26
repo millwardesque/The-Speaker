@@ -2,13 +2,36 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public enum AudienceMemberState {
+    Disinterested,
+    Intrigued,
+    Interested,
+    Hooked
+}
+
 public class AudienceMember : MonoBehaviour {
     public float walkSpeed = 1f;
-    public float interestThreshold = 0f;
+    float intrigueThreshold = 0.75f;
+    float interestThreshold = 0.9f;
     public Vector2 walkingDirection;
 
     bool m_isInScoreZone = false;
     AnimatedSprite m_animator;
+
+    AudienceMemberState m_state;
+    public AudienceMemberState State {
+        get { return m_state; }
+        set {
+            if (value == AudienceMemberState.Intrigued) {
+                LookAtPlayer ();
+            }
+            else if (value == AudienceMemberState.Hooked) {
+                LookAtPlayer ();
+            }
+
+            m_state = value;
+        }
+    }
 
     Dictionary<string, float> m_interests;
     public Dictionary<string, float> Interests {
@@ -22,9 +45,12 @@ public class AudienceMember : MonoBehaviour {
                 return 0f;
             }
 
+            float penalty = 0f;
+
+            // Audience members who've passed the player are harder to interest.
             float angle = Vector2.Angle (walkingDirection, GameManager.Instance.player.transform.position - transform.position);
-            if (!m_isInScoreZone && angle > 90f) {
-                return 0f;
+            if (angle > 90f) {
+                penalty = m_isInScoreZone ? 0.15f : 0.3f;   // Penalty is less severe for members in the score zone
             }
 
             float overallInterest = 0f;
@@ -32,7 +58,6 @@ public class AudienceMember : MonoBehaviour {
             Player player = GameManager.Instance.player;
             foreach (string trait in m_interests.Keys) {
                 List<SpeechConcept> concepts = player.FindActiveConceptsWithTrait(trait);
-
                 foreach (SpeechConcept concept in concepts) {
                     matchingTopics ++;
                     overallInterest += m_interests [trait] * concept.value;
@@ -42,7 +67,7 @@ public class AudienceMember : MonoBehaviour {
                 return 0f;
             }
             else {
-                return overallInterest / matchingTopics;    
+                return overallInterest * (1f - penalty);
             }
         }
     }
@@ -50,8 +75,7 @@ public class AudienceMember : MonoBehaviour {
     void Awake() { 
         m_interests = new Dictionary<string, float> ();
     }
-
-
+        
     // Use this for initialization
 	void Start () {
         m_animator = GetComponent<AnimatedSprite> ();
@@ -59,49 +83,33 @@ public class AudienceMember : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        Vector3 distanceToPlayer = GameManager.Instance.player.transform.position - transform.position;
-        Vector3 direction = distanceToPlayer.normalized;
+        if (State == AudienceMemberState.Disinterested) {
+            Walk (walkingDirection);
+        }
+        else if (State == AudienceMemberState.Intrigued) {
+            // No-op.
+        }
+        else if (State == AudienceMemberState.Interested) {
+            Vector3 distanceToPlayer = GameManager.Instance.player.transform.position - transform.position;
+            Vector3 direction = distanceToPlayer.normalized;
+            Walk (direction);
+        }
+        else if (State == AudienceMemberState.Hooked) {
+            // No-op.   
+        }
 
-        if (m_isInScoreZone && IsInterested()) {
-            if (Mathf.Abs (direction.x) > Mathf.Abs(direction.y)) {
-                if (direction.x > 0f) {
-                    m_animator.TriggerAnimationIfNotActive ("Stand Right");
-                }
-                else if (direction.x < 0f) {
-                    m_animator.TriggerAnimationIfNotActive ("Stand Left");
-                }
-            }
-            else {
-                if (direction.y > 0f) {
-                    m_animator.TriggerAnimationIfNotActive ("Stand Up");
-                }
-                else if (direction.y < 0f) {
-                    m_animator.TriggerAnimationIfNotActive ("Stand Down");
-                }
-            }
+        // Change states if necessary.
+        if (m_isInScoreZone && CurrentInterest > interestThreshold) {
+            State = AudienceMemberState.Hooked;
+        }
+        else if (CurrentInterest > interestThreshold) {
+            State = AudienceMemberState.Interested;
+        }
+        else if (CurrentInterest > intrigueThreshold) {
+            State = AudienceMemberState.Intrigued;
         }
         else {
-            if (!IsInterested ()) {
-                direction = walkingDirection;
-            }
-            transform.position += direction * walkSpeed * Time.deltaTime;
-
-            if (Mathf.Abs (direction.x) > Mathf.Abs(direction.y)) {
-                if (direction.x > 0f) {
-                    m_animator.TriggerAnimationIfNotActive ("Walk Right");
-                }
-                else if (direction.x < 0f) {
-                    m_animator.TriggerAnimationIfNotActive ("Walk Left");
-                }
-            }
-            else {
-                if (direction.y > 0f) {
-                    m_animator.TriggerAnimationIfNotActive ("Walk Up");
-                }
-                else if (direction.y < 0f) {
-                    m_animator.TriggerAnimationIfNotActive ("Walk Down");
-                }
-            }
+            State = AudienceMemberState.Disinterested;
         }
 
         // Sort sub-sprites by Y component to get the order correct.
@@ -111,8 +119,25 @@ public class AudienceMember : MonoBehaviour {
         }
 	}
 
-    public bool IsInterested() {
-        return CurrentInterest >= interestThreshold;
+    void Walk(Vector3 direction) {
+        transform.position += direction * walkSpeed * Time.deltaTime;
+
+        if (Mathf.Abs (direction.x) > Mathf.Abs(direction.y)) {
+            if (direction.x > 0f) {
+                m_animator.TriggerAnimationIfNotActive ("Walk Right");
+            }
+            else if (direction.x < 0f) {
+                m_animator.TriggerAnimationIfNotActive ("Walk Left");
+            }
+        }
+        else {
+            if (direction.y > 0f) {
+                m_animator.TriggerAnimationIfNotActive ("Walk Up");
+            }
+            else if (direction.y < 0f) {
+                m_animator.TriggerAnimationIfNotActive ("Walk Down");
+            }
+        }
     }
 
     void OnTriggerEnter2D(Collider2D col) {
@@ -127,6 +152,30 @@ public class AudienceMember : MonoBehaviour {
     void OnTriggerExit2D(Collider2D col) {
         if (col.tag == "Score Zone") {
             m_isInScoreZone = false;
+        }
+    }
+
+    Vector2 DistanceToPlayer() {
+        return GameManager.Instance.player.transform.position - transform.position;
+    }
+
+    void LookAtPlayer() {
+        Vector2 directionToPlayer = DistanceToPlayer ().normalized;
+        if (Mathf.Abs (directionToPlayer.x) > Mathf.Abs(directionToPlayer.y)) {
+            if (directionToPlayer.x > 0f) {
+                m_animator.TriggerAnimationIfNotActive ("Stand Right");
+            }
+            else if (directionToPlayer.x < 0f) {
+                m_animator.TriggerAnimationIfNotActive ("Stand Left");
+            }
+        }
+        else {
+            if (directionToPlayer.y > 0f) {
+                m_animator.TriggerAnimationIfNotActive ("Stand Up");
+            }
+            else if (directionToPlayer.y < 0f) {
+                m_animator.TriggerAnimationIfNotActive ("Stand Down");
+            }
         }
     }
 }
