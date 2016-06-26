@@ -13,8 +13,8 @@ public enum AudienceMemberState {
 
 public class AudienceMember : MonoBehaviour {
     public float walkSpeed = 1f;
-    float intrigueThreshold = 0.75f;
-    float interestThreshold = 0.9f;
+    float intrigueThreshold = 0.3f;
+    float interestThreshold = 0.95f;
     public Vector2 walkingDirection;
     public GameObject speechBubble;
 
@@ -74,10 +74,17 @@ public class AudienceMember : MonoBehaviour {
 
             float penalty = 0f;
 
+            // Audience members far from teh player are harder to interest
+            Vector2 distanceToPlayer = DistanceToPlayer ();
+            float distanceFactor = 3f;
+            if (distanceToPlayer.magnitude >= distanceFactor) {
+                penalty += distanceToPlayer.magnitude / (distanceFactor * 10f);
+            }
+
             // Audience members who've passed the player are harder to interest.
-            float angle = Vector2.Angle (walkingDirection, GameManager.Instance.player.transform.position - transform.position);
+            float angle = Vector2.Angle (walkingDirection, distanceToPlayer);
             if (angle > 90f) {
-                penalty = m_isInScoreZone ? 0.1f : 0.2f;   // Penalty is less severe for members in the score zone
+                penalty += m_isInScoreZone ? 0.1f : 0.2f;   // Penalty is less severe for members in the score zone
             }
 
             float overallInterest = 0f;
@@ -199,7 +206,7 @@ public class AudienceMember : MonoBehaviour {
     void LookAtPlayer() {
         Vector2 directionToPlayer = DistanceToPlayer ().normalized;
         if (Mathf.Abs (directionToPlayer.x) > Mathf.Abs(directionToPlayer.y)) {
-            if (directionToPlayer.x > 0f) {
+            if (directionToPlayer.x >= 0f) {
                 m_animator.TriggerAnimationIfNotActive ("Stand Right");
             }
             else if (directionToPlayer.x < 0f) {
@@ -207,7 +214,7 @@ public class AudienceMember : MonoBehaviour {
             }
         }
         else {
-            if (directionToPlayer.y > 0f) {
+            if (directionToPlayer.y >= 0f) {
                 m_animator.TriggerAnimationIfNotActive ("Stand Up");
             }
             else if (directionToPlayer.y < 0f) {
