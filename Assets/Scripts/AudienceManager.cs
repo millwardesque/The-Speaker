@@ -20,8 +20,11 @@ public class AudienceType {
 
 public class AudienceManager : MonoBehaviour {
     public float audienceSpawnTime = 5f;
-    public Vector2 spawnContainerOrigin;
-    public Vector2 spawnContainerSize;
+    public Vector2 leftSpawnContainerOrigin;
+    public Vector2 leftSpawnContainerSize;
+    public Vector2 rightSpawnContainerOrigin;
+    public Vector2 rightSpawnContainerSize;
+
     public float audienceMoveSpeed = 1.0f;
     float m_audienceSpawnRemaining = 0f;
     int m_spawnCounter = 0;
@@ -42,8 +45,16 @@ public class AudienceManager : MonoBehaviour {
 
     void Update() {
         m_audienceSpawnRemaining -= Time.deltaTime;
-        if (m_audienceSpawnRemaining <= 0f) { 
-            GenerateAudienceMember (spawnContainerOrigin, spawnContainerSize);
+        if (m_audienceSpawnRemaining <= 0f) {
+
+            bool walkLeft = (Random.Range (0, 2) % 2 == 0);
+            if (walkLeft) {
+                GenerateAudienceMember (leftSpawnContainerOrigin, leftSpawnContainerSize);    
+            }
+            else {
+                GenerateAudienceMember (rightSpawnContainerOrigin, rightSpawnContainerSize);
+            }
+
             m_audienceSpawnRemaining = audienceSpawnTime;
         }
     }
@@ -97,7 +108,7 @@ public class AudienceManager : MonoBehaviour {
         float x = Random.Range (minX, maxX);
         float y = Random.Range (minY, maxY);
         newMember.transform.position = new Vector3 (x, y, transform.position.z);
-        if (x < 0) {
+        if (x < GameManager.Instance.player.transform.position.x) {
             newMember.walkingDirection = new Vector2 (1f, 0f);
         }
         else {
