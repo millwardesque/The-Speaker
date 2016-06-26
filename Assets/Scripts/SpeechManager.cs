@@ -21,6 +21,7 @@ public class SpeechManager : MonoBehaviour {
     Dictionary<string, Queue<SpeechConcept>> m_traitQueue;
 
     public SpeechConcept GetNextWithTrait(string trait) {
+        Debug.Log (string.Format ("Next button trait {0}: {1} available. {2} is next", trait, m_traitQueue[trait].Count, m_traitQueue[trait].Peek().speech));
         SpeechConcept concept = m_traitQueue [trait].Dequeue ();
         m_traitQueue [trait].Enqueue (concept);
         return concept;
