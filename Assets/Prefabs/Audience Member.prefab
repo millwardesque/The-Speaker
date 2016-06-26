@@ -94,7 +94,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 1}
+  m_Size: {x: 0.5, y: 0.1}
 --- !u!95 &9520962
 Animator:
   serializedVersion: 3
@@ -137,6 +137,7 @@ MonoBehaviour:
   minDistanceFromPlayer: 2
   walkSpeed: 1
   interestThreshold: 0.01
+  walkingDirection: {x: 0, y: 0}
 --- !u!114 &11492786
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -175,7 +176,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
+  m_SortingLayerID: 229558087
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300256, guid: 37596e7f63b20894fb4d02ca5a7cbb39, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

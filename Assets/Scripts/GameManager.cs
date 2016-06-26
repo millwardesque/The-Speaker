@@ -46,8 +46,6 @@ public class GameManager : MonoBehaviour {
     void Awake() {
         if (Instance == null) {
             Instance = this;
-
-            m_scoreKeeper = GetComponent<ScoreKeeper> ();
         }
         else {
             GameObject.Destroy (gameObject);
@@ -66,6 +64,7 @@ public class GameManager : MonoBehaviour {
         m_audienceManager = FindObjectOfType<AudienceManager> ();
         m_speechManager = GetComponent<SpeechManager>();
         m_speechManager.Clear ();
+        m_scoreKeeper = FindObjectOfType<ScoreKeeper> ();
 	}
 
     void Update() {

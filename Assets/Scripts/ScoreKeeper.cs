@@ -6,6 +6,7 @@ public class ScoreKeeper : MonoBehaviour {
     public int pointsPerInterestedAudienceMember = 10;
     public float scoreUpdateFrequency = 1f;
     float m_timeUntilUpdate = 0f;
+    List<AudienceMember> m_inRangeScorers;
 
     int m_score;
     public int Score {
@@ -23,6 +24,8 @@ public class ScoreKeeper : MonoBehaviour {
     void Awake() {
         if (Instance == null) {
             Instance = this;
+
+            m_inRangeScorers = new List<AudienceMember> ();
         }
         else {
             GameObject.Destroy (this);
@@ -32,6 +35,7 @@ public class ScoreKeeper : MonoBehaviour {
     void Start() {
         m_timeUntilUpdate = scoreUpdateFrequency;
         Score = 0;
+        m_inRangeScorers.Clear ();
     }
 
     void Update() {
@@ -43,11 +47,24 @@ public class ScoreKeeper : MonoBehaviour {
     }
 
     void UpdateScore() {
-        AudienceMember[] audience = GameManager.Instance.Audience.GetAudienceMembers ();
-        foreach (AudienceMember member in audience) {
+        foreach (AudienceMember member in m_inRangeScorers) {
             if (member.IsInterested()) {
                 Score += pointsPerInterestedAudienceMember;
             }
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D col) {
+        AudienceMember member = col.GetComponent<AudienceMember>();
+        if (member != null && !m_inRangeScorers.Contains (member) ) {
+            m_inRangeScorers.Add (member);
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D col) {
+        AudienceMember member = col.GetComponent<AudienceMember>();
+        if (member != null && m_inRangeScorers.Contains (member) ) {
+            m_inRangeScorers.Remove (member);
         }
     }
 }

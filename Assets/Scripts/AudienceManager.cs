@@ -126,7 +126,7 @@ public class AudienceManager : MonoBehaviour {
             traitValues.Add (value);
         }
         while (traitValues.Count < traits.Count) {
-            float value = Random.Range (-1f, 1f);
+            float value = Random.Range (-1f, 0f);
             traitValues.Add (value);
         }
 
