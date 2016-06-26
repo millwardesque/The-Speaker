@@ -7,7 +7,8 @@ public enum AudienceMemberState {
     Disinterested,
     Intrigued,
     Interested,
-    Hooked
+    Hooked,
+    Satisfied
 }
 
 public class AudienceMember : MonoBehaviour {
@@ -17,6 +18,9 @@ public class AudienceMember : MonoBehaviour {
     public Vector2 walkingDirection;
     public GameObject speechBubble;
 
+    float speechBubbleDuration = 1f;
+    float m_speechBubbleElapsed = 0f;
+
     bool m_isInScoreZone = false;
     AnimatedSprite m_animator;
 
@@ -24,6 +28,10 @@ public class AudienceMember : MonoBehaviour {
     public AudienceMemberState State {
         get { return m_state; }
         set {
+            if (m_state == value) {
+                return;
+            }
+
             switch (value) {
             case AudienceMemberState.Disinterested:
                 HideSpeechBubble ();
@@ -37,8 +45,12 @@ public class AudienceMember : MonoBehaviour {
                 ShowSpeechBubble ("!");
                 break;
             case AudienceMemberState.Hooked:
+                ShowSpeechBubble ("!!");
                 LookAtPlayer ();
-                ShowSpeechBubble ("$");
+                break;
+            case AudienceMemberState.Satisfied:
+                m_speechBubbleElapsed = 0f;
+                ShowSpeechBubble ("$", Color.green);
                 break;
             default:
                 break;
@@ -110,21 +122,31 @@ public class AudienceMember : MonoBehaviour {
             Walk (direction);
         }
         else if (State == AudienceMemberState.Hooked) {
-            // No-op.   
+            // No-op.
+        }
+        else if (State == AudienceMemberState.Satisfied) {
+            Walk (walkingDirection);
+
+            if (m_speechBubbleElapsed < speechBubbleDuration) {
+                m_speechBubbleElapsed += Time.deltaTime;
+
+                if (m_speechBubbleElapsed > speechBubbleDuration) {
+                    HideSpeechBubble ();
+                }
+            }
         }
 
         // Change states if necessary.
-        if (m_isInScoreZone && CurrentInterest > interestThreshold) {
-            State = AudienceMemberState.Hooked;
-        }
-        else if (CurrentInterest > interestThreshold) {
-            State = AudienceMemberState.Interested;
-        }
-        else if (CurrentInterest > intrigueThreshold) {
-            State = AudienceMemberState.Intrigued;
-        }
-        else {
-            State = AudienceMemberState.Disinterested;
+        if (State != AudienceMemberState.Satisfied) {
+            if (m_isInScoreZone && CurrentInterest > interestThreshold) {
+                State = AudienceMemberState.Hooked;
+            } else if (CurrentInterest > interestThreshold) {
+                State = AudienceMemberState.Interested;
+            } else if (CurrentInterest > intrigueThreshold) {
+                State = AudienceMemberState.Intrigued;
+            } else {
+                State = AudienceMemberState.Disinterested;
+            }
         }
 
         // Sort sub-sprites by Y component to get the order correct.
@@ -195,8 +217,12 @@ public class AudienceMember : MonoBehaviour {
     }
 
     void ShowSpeechBubble(string text) {
+        ShowSpeechBubble (text, Color.blue);
+    }
+    void ShowSpeechBubble(string text, Color color) {
         speechBubble.SetActive (true);
-        speechBubble.GetComponentInChildren<Text>().text = text;
+        speechBubble.GetComponentInChildren<Text> ().text = text;
+        speechBubble.GetComponentInChildren<Text> ().color = color;
     }
 
     void HideSpeechBubble() {

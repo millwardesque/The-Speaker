@@ -50,6 +50,7 @@ public class ScoreKeeper : MonoBehaviour {
         foreach (AudienceMember member in m_inRangeScorers) {
             if (member.State == AudienceMemberState.Hooked) {
                 Score += pointsPerInterestedAudienceMember;
+                member.State = AudienceMemberState.Satisfied;
             }
         }
     }
