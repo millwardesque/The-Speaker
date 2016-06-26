@@ -159,15 +159,15 @@ public class AudienceManager : MonoBehaviour {
 
         // Generate an even number of positive and negative traits per side
         for (int i = 0; i < traitsPerSide; ++i) {
-            float value = Random.Range (-1f, 0f);
+            float value = 0; // @DEBUG Testing no negative traits Random.Range (-1f, 0f);
             traitValues.Add (value);
         }
         for (int i = 0; i < traitsPerSide; ++i) {
-            float value = Random.Range (0, 1f);
+            float value = Random.Range (0.5f, 1f);
             traitValues.Add (value);
         }
         while (traitValues.Count < traits.Count) {
-            float value = Random.Range (-1f, 0f);
+            float value = 0; // @DEBUG Testing no negative traits Random.Range (-1f, 0f);
             traitValues.Add (value);
         }
 
