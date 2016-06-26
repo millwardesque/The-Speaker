@@ -101,6 +101,9 @@ public class GameManager : MonoBehaviour {
             float audienceSpawnTime = N ["audience_spawn_time"].AsFloat;
             Audience.audienceSpawnTime = audienceSpawnTime;
 
+            float audienceMoveSpeed = N ["audience_move_speed"].AsFloat;
+            Audience.audienceMoveSpeed = audienceMoveSpeed;
+
             // Load the concepts.
             Dictionary<string, SpeechConcept> concepts = new Dictionary<string, SpeechConcept>();
             var conceptArray = N["concepts"].AsArray;

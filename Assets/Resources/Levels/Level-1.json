@@ -1,4 +1,5 @@
 ﻿{
+  "audience_move_speed": 0.5,
   "initial_audience_size": 5,
   "audience_spawn_time": 2,
   "level_duration": 30,

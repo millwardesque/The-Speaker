@@ -97,6 +97,11 @@ public class AudienceMember : MonoBehaviour {
                 }
             }
         }
+
+        SpriteRenderer[] sprites = GetComponentsInChildren<SpriteRenderer> ();
+        for (int i = 0; i < sprites.Length; ++i) {
+            sprites[i].sortingOrder = (Mathf.RoundToInt(sprites[i].transform.position.y * 100f) - i) * -1;    
+        }
 	}
 
     public bool IsInterested() {

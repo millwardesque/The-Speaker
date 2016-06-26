@@ -22,6 +22,7 @@ public class AudienceManager : MonoBehaviour {
     public float audienceSpawnTime = 5f;
     public Vector2 spawnContainerOrigin;
     public Vector2 spawnContainerSize;
+    public float audienceMoveSpeed = 1.0f;
     float m_audienceSpawnRemaining = 0f;
     int m_spawnCounter = 0;
 
@@ -42,19 +43,20 @@ public class AudienceManager : MonoBehaviour {
     void Update() {
         m_audienceSpawnRemaining -= Time.deltaTime;
         if (m_audienceSpawnRemaining <= 0f) { 
-            GenerateAudienceMember ("Spawned", spawnContainerOrigin, spawnContainerSize);
+            GenerateAudienceMember (spawnContainerOrigin, spawnContainerSize);
             m_audienceSpawnRemaining = audienceSpawnTime;
         }
     }
 
     public void GenerateAudienceMembers(int numMembers, Vector2 containerOrigin, Vector2 containerSize) {
         for (int i = 0; i < numMembers; i++) {
-            GenerateAudienceMember ("Audience", containerOrigin, containerSize);
+            GenerateAudienceMember (containerOrigin, containerSize);
         }
     }
         
-    public void GenerateAudienceMember(string name, Vector2 containerOrigin, Vector2 containerSize) {
+    public void GenerateAudienceMember(Vector2 containerOrigin, Vector2 containerSize) {
         Dictionary<string, float> interests = GenerateInterests (GameManager.Instance.Traits);
+        string name = "";
 
         // Determine what type of audience member to generate.
         string primaryInterest = "";
@@ -71,6 +73,7 @@ public class AudienceManager : MonoBehaviour {
         foreach (AudienceType type in AudienceTypes.Values) {
             if (type.primaryTrait == primaryInterest) {
                 newMember = Instantiate<AudienceMember> (type.prefab);
+                name = type.name;
                 break;
             }
         }
@@ -82,7 +85,7 @@ public class AudienceManager : MonoBehaviour {
         newMember.transform.SetParent (transform, true);
         newMember.name = name + " (" + m_spawnCounter + ")";
         newMember.Interests = interests;
-        newMember.walkSpeed *= Random.Range (0.7f, 1.3f);
+        newMember.walkSpeed *= Random.Range (audienceMoveSpeed * 0.7f, audienceMoveSpeed * 1.3f);
 
         float minX = containerOrigin.x - containerSize.x / 2f;
         float maxX = containerOrigin.x + containerSize.x / 2f;
