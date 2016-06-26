@@ -50,7 +50,6 @@ public class AudienceManager : MonoBehaviour {
     void Update() {
         m_audienceSpawnRemaining -= Time.deltaTime;
         if (m_audienceSpawnRemaining <= 0f) {
-            Debug.Log ("Spawning");
             bool walkLeft = (Random.Range (0, 2) % 2 == 0);
             if (walkLeft) {
                 GenerateAudienceMember (leftSpawnContainerOrigin, leftSpawnContainerSize);    

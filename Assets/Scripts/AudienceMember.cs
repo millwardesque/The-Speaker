@@ -180,9 +180,6 @@ public class AudienceMember : MonoBehaviour {
             else {
                 Color bubbleColour = speechBubble.GetComponentInChildren<Image> ().color;
                 float offHueValue = 1f - ((CurrentInterest - speechBubbleColourMin) / (speechBubbleColourMax - speechBubbleColourMin));
-
-                Debug.Log (string.Format ("{0} : {1} : {2}", speechBubbleColourMin, speechBubbleColourMax, CurrentInterest));
-
                 Mathf.Clamp01 (offHueValue);
                 bubbleColour.r = offHueValue;
                 bubbleColour.b = offHueValue;
