@@ -14,7 +14,7 @@ public enum AudienceMemberState {
 public class AudienceMember : MonoBehaviour {
     public float walkSpeed = 1f;
     float intrigueThreshold = 0.1f;
-    float interestThreshold = 0.8f;
+    float interestThreshold = 0.7f;
     public Vector2 walkingDirection;
     public GameObject speechBubble;
 
@@ -76,7 +76,7 @@ public class AudienceMember : MonoBehaviour {
 
             // Audience members far from teh player are harder to interest
             Vector2 distanceToPlayer = DistanceToPlayer ();
-            float distanceFactor = 3f;
+            float distanceFactor = 4f;
             if (distanceToPlayer.magnitude >= distanceFactor) {
                 penalty += distanceToPlayer.magnitude / (distanceFactor * 10f);
             }
