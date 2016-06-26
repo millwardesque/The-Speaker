@@ -8,6 +8,9 @@ public class AudienceMemberEditor : Editor {
 
     public override void OnInspectorGUI() {
         AudienceMember member = target as AudienceMember;
+        if (member == null) {
+            return;
+        }
         DrawDefaultInspector();
 
         EditorGUILayout.LabelField ("State", member.State.ToString ());
@@ -15,7 +18,7 @@ public class AudienceMemberEditor : Editor {
         if (member.Interests != null) {
             EditorGUILayout.LabelField("My Interests");
             foreach (KeyValuePair<string, float> interest in member.Interests) {
-                EditorGUILayout.LabelField(interest.Key, interest.Value.ToString());
+                EditorGUILayout.LabelField(interest.Key, interest.Value.ToString());    
             }
         }
     }

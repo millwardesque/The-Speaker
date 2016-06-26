@@ -25,6 +25,7 @@ public class AudienceManager : MonoBehaviour {
     public Vector2 rightSpawnContainerOrigin;
     public Vector2 rightSpawnContainerSize;
 
+    public GameObject[] hairOptions;
     public float audienceMoveSpeed = 1.0f;
     float m_audienceSpawnRemaining = 0f;
     int m_spawnCounter = 0;
@@ -92,7 +93,6 @@ public class AudienceManager : MonoBehaviour {
             Debug.Log ("Unable to generate audience member: Unable to match primary interest '" + primaryInterest + "' with audience type.");
             return;
         }
-
         newMember.transform.SetParent (transform, true);
         newMember.name = name + " (" + m_spawnCounter + ")";
         newMember.Interests = interests;
@@ -101,6 +101,7 @@ public class AudienceManager : MonoBehaviour {
         float scale = Random.Range (0.85f, 1.15f);
         newMember.transform.localScale = new Vector3 (newMember.transform.localScale.x * scale, newMember.transform.localScale.y * scale, 1f);
 
+        // Choose location
         float minX = containerOrigin.x - containerSize.x / 2f;
         float maxX = containerOrigin.x + containerSize.x / 2f;
         float minY = containerOrigin.y - containerSize.y / 2f;
@@ -108,11 +109,22 @@ public class AudienceManager : MonoBehaviour {
         float x = Random.Range (minX, maxX);
         float y = Random.Range (minY, maxY);
         newMember.transform.position = new Vector3 (x, y, transform.position.z);
+
+        // Choose walking direction
         if (x < GameManager.Instance.player.transform.position.x) {
             newMember.walkingDirection = new Vector2 (1f, 0f);
         }
         else {
             newMember.walkingDirection = new Vector2 (-1f, 0f);
+        }
+
+        // Generate hair
+        if (hairOptions.Length > 0) {
+            int index = Random.Range (0, hairOptions.Length);
+            GameObject newHair = (GameObject)Instantiate(hairOptions[index], Vector3.zero, Quaternion.identity);
+            newHair.transform.SetParent (newMember.transform, false);
+            newHair.transform.localScale = Vector3.one;
+            newHair.GetComponent<SpriteRenderer>().sortingLayerName = "Audience";
         }
 
         m_spawnCounter++;

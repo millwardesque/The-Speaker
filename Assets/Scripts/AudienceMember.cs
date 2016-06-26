@@ -13,8 +13,8 @@ public enum AudienceMemberState {
 
 public class AudienceMember : MonoBehaviour {
     public float walkSpeed = 1f;
-    float intrigueThreshold = 0.3f;
-    float interestThreshold = 0.95f;
+    float intrigueThreshold = 0.1f;
+    float interestThreshold = 0.8f;
     public Vector2 walkingDirection;
     public GameObject speechBubble;
 
