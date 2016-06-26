@@ -1,7 +1,7 @@
 ﻿{
   "audience_move_speed": 1.0,
   "initial_audience_size": 0,
-  "audience_spawn_time": 2,
+  "audience_spawn_time": 60,
   "level_duration": 60,
   "concept_duration": 1.5,
   "concepts": [

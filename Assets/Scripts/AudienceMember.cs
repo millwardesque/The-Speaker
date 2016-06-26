@@ -13,10 +13,14 @@ public enum AudienceMemberState {
 
 public class AudienceMember : MonoBehaviour {
     public float walkSpeed = 1f;
-    float intrigueThreshold = 0.1f;
-    float interestThreshold = 0.7f;
+    float intrigueThreshold = 0.2f;
+    float interestThreshold = 0.8f;
     public Vector2 walkingDirection;
     public GameObject speechBubble;
+
+    float speechBubbleColourMin = 0f;
+    float speechBubbleColourMax = 1f;
+
 
     float speechBubbleDuration = 1f;
     float m_speechBubbleElapsed = 0f;
@@ -35,14 +39,20 @@ public class AudienceMember : MonoBehaviour {
             switch (value) {
             case AudienceMemberState.Disinterested:
                 HideSpeechBubble ();
+                speechBubbleColourMin = 0f;
+                speechBubbleColourMax = intrigueThreshold;
                 break;
             case AudienceMemberState.Intrigued:
                 LookAtPlayer ();
                 ShowSpeechBubble ("?");
+                speechBubbleColourMin = intrigueThreshold;
+                speechBubbleColourMax = interestThreshold;
                 break;
             case AudienceMemberState.Interested:
                 LookAtPlayer ();
                 ShowSpeechBubble ("!");
+                speechBubbleColourMin = interestThreshold;
+                speechBubbleColourMax = interestThreshold + 0.1f;
                 break;
             case AudienceMemberState.Hooked:
                 ShowSpeechBubble ("!!");
@@ -101,7 +111,7 @@ public class AudienceMember : MonoBehaviour {
                 return 0f;
             }
             else {
-                return overallInterest * (1f - penalty);
+                return Mathf.Clamp01 (overallInterest * (1f - penalty));
             }
         }
     }
@@ -161,6 +171,23 @@ public class AudienceMember : MonoBehaviour {
         SpriteRenderer[] sprites = GetComponentsInChildren<SpriteRenderer> ();
         for (int i = 0; i < sprites.Length; ++i) {
             sprites[i].sortingOrder = (Mathf.RoundToInt(sprites[i].transform.position.y * 100f) - i) * -1;    
+        }
+
+        if (speechBubble.activeSelf) {
+            if (Mathf.Epsilon >= Mathf.Abs(CurrentInterest) || State == AudienceMemberState.Satisfied) {
+                speechBubble.GetComponentInChildren<Image> ().color = Color.white;
+            }
+            else {
+                Color bubbleColour = speechBubble.GetComponentInChildren<Image> ().color;
+                float offHueValue = 1f - ((CurrentInterest - speechBubbleColourMin) / (speechBubbleColourMax - speechBubbleColourMin));
+
+                Debug.Log (string.Format ("{0} : {1} : {2}", speechBubbleColourMin, speechBubbleColourMax, CurrentInterest));
+
+                Mathf.Clamp01 (offHueValue);
+                bubbleColour.r = offHueValue;
+                bubbleColour.b = offHueValue;
+                speechBubble.GetComponentInChildren<Image> ().color = bubbleColour;
+            }
         }
 	}
 

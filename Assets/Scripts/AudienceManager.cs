@@ -50,7 +50,7 @@ public class AudienceManager : MonoBehaviour {
     void Update() {
         m_audienceSpawnRemaining -= Time.deltaTime;
         if (m_audienceSpawnRemaining <= 0f) {
-
+            Debug.Log ("Spawning");
             bool walkLeft = (Random.Range (0, 2) % 2 == 0);
             if (walkLeft) {
                 GenerateAudienceMember (leftSpawnContainerOrigin, leftSpawnContainerSize);    
@@ -163,7 +163,7 @@ public class AudienceManager : MonoBehaviour {
             traitValues.Add (value);
         }
         for (int i = 0; i < traitsPerSide; ++i) {
-            float value = Random.Range (0.5f, 1f);
+            float value = Random.Range (0.2f, 0.4f);
             traitValues.Add (value);
         }
         while (traitValues.Count < traits.Count) {
