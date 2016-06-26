@@ -87,6 +87,9 @@ public class AudienceManager : MonoBehaviour {
         newMember.Interests = interests;
         newMember.walkSpeed *= Random.Range (audienceMoveSpeed * 0.7f, audienceMoveSpeed * 1.3f);
 
+        float scale = Random.Range (0.85f, 1.15f);
+        newMember.transform.localScale = new Vector3 (newMember.transform.localScale.x * scale, newMember.transform.localScale.y * scale, 1f);
+
         float minX = containerOrigin.x - containerSize.x / 2f;
         float maxX = containerOrigin.x + containerSize.x / 2f;
         float minY = containerOrigin.y - containerSize.y / 2f;
