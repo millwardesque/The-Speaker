@@ -25,7 +25,10 @@ public class AudienceManager : MonoBehaviour {
     public Vector2 rightSpawnContainerOrigin;
     public Vector2 rightSpawnContainerSize;
 
+    // Customizations.
     public GameObject[] hairOptions;
+    public GameObject[] eyeOptions;
+
     public float audienceMoveSpeed = 1.0f;
     float m_audienceSpawnRemaining = 0f;
     int m_spawnCounter = 0;
@@ -116,6 +119,15 @@ public class AudienceManager : MonoBehaviour {
         }
         else {
             newMember.walkingDirection = new Vector2 (-1f, 0f);
+        }
+
+        // Generate eyes.
+        if (eyeOptions.Length > 0) {
+            int index = Random.Range (0, eyeOptions.Length);
+            GameObject newEyes = (GameObject)Instantiate(eyeOptions[index], Vector3.zero, Quaternion.identity);
+            newEyes.transform.SetParent (newMember.transform, false);
+            newEyes.transform.localScale = Vector3.one;
+            newEyes.GetComponent<SpriteRenderer>().sortingLayerName = "Audience";
         }
 
         // Generate hair

@@ -269,6 +269,13 @@ MonoBehaviour:
   - {fileID: 153204, guid: 6392e5abfb95d7a4b9cf67a920f5623d, type: 2}
   - {fileID: 131144, guid: 0f39b00c4430e544cb87d99fafe95e41, type: 2}
   - {fileID: 175604, guid: 8108d6deeb9da874c8c764afeb996116, type: 2}
+  eyeOptions:
+  - {fileID: 173506, guid: dcefeae08f81f6c46afa6f8daa23bacd, type: 2}
+  - {fileID: 172986, guid: a9ca5d72cd0178a4391efaa5d2eebe5d, type: 2}
+  - {fileID: 193876, guid: fec919941af745c4a935231ce3c9a6d1, type: 2}
+  - {fileID: 163096, guid: 71c5dc87cb9d10b48b1e110f5b43cd24, type: 2}
+  - {fileID: 147870, guid: 1aaef1e8e7198a94dbb2cafa2ac91359, type: 2}
+  - {fileID: 109760, guid: 1ddd6b9fce067724fbbaae803a8a4d21, type: 2}
   audienceMoveSpeed: 1
 --- !u!1001 &100100000
 Prefab:
