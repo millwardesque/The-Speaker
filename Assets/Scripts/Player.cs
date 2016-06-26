@@ -80,9 +80,10 @@ public class Player : MonoBehaviour {
     public List<SpeechConcept> FindActiveConceptsWithTrait(string trait) {
         List<SpeechConcept> matches = new List<SpeechConcept> ();
 
-        foreach (string concept in ActiveConcepts.Keys) {
-            if (GameManager.Instance.Concepts [concept].trait == trait) {
-                matches.Add (GameManager.Instance.Concepts [concept]);
+        foreach (string name in ActiveConcepts.Keys) {
+            SpeechConcept concept = GameManager.Instance.Speeches.Concepts [name];
+            if (concept.trait == trait) {
+                matches.Add (concept);
             }
         }
 

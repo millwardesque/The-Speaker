@@ -82,7 +82,7 @@ public class AudienceManager : MonoBehaviour {
         newMember.transform.SetParent (transform, true);
         newMember.name = name + " (" + m_spawnCounter + ")";
         newMember.Interests = interests;
-        newMember.walkSpeed *= Random.Range (0.8f, 1.2f);
+        newMember.walkSpeed *= Random.Range (0.7f, 1.3f);
 
         float minX = containerOrigin.x - containerSize.x / 2f;
         float maxX = containerOrigin.x + containerSize.x / 2f;

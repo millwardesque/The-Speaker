@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour {
     public Vector2 initialAudienceSpawnContainerSize;
     public GameOver gameOverScreen;
 
+    Dictionary<string, SpeechConcept> conceptsByTrait;
+
     bool m_levelLoaded = false;
 
     List<string> m_traits = new List<string> ();
@@ -19,9 +21,9 @@ public class GameManager : MonoBehaviour {
         get { return m_traits; }
     }
 
-    Dictionary<string, SpeechConcept> m_concepts;
-    public Dictionary<string, SpeechConcept> Concepts {
-        get { return m_concepts; }
+    SpeechManager m_speechManager;
+    public SpeechManager Speeches {
+        get { return m_speechManager; }
     }
 
     public static GameManager Instance = null;
@@ -45,7 +47,6 @@ public class GameManager : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
 
-            m_concepts = new Dictionary<string, SpeechConcept>();
             m_scoreKeeper = GetComponent<ScoreKeeper> ();
         }
         else {
@@ -59,11 +60,12 @@ public class GameManager : MonoBehaviour {
         MessageManager.Instance.AddListener ("ButtonPushed", OnButtonPushed);
 
         Time.timeScale = 1f;
-        m_concepts.Clear ();
         m_levelLoaded = false;
 
         m_player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         m_audienceManager = FindObjectOfType<AudienceManager> ();
+        m_speechManager = GetComponent<SpeechManager>();
+        m_speechManager.Clear ();
 	}
 
     void Update() {
@@ -78,7 +80,10 @@ public class GameManager : MonoBehaviour {
     }
 
     void OnButtonPushed(Message message) {
-        m_player.Speak (((SpeechConcept)message.data["concept"]));
+        SpeechConcept concept = (SpeechConcept)message.data ["concept"];
+        int buttonIndex = (int)message.data ["index"];
+        m_player.Speak (concept);
+        CreateButton(Speeches.GetNextWithTrait (concept.trait), buttonIndex);
     }
 
     void LoadLevelData(string resourceName) {
@@ -95,6 +100,7 @@ public class GameManager : MonoBehaviour {
             player.conceptDuration = conceptDuration;
 
             // Load the concepts.
+            Dictionary<string, SpeechConcept> concepts = new Dictionary<string, SpeechConcept>();
             var conceptArray = N["concepts"].AsArray;
             foreach (JSONNode concept in conceptArray) {
                 string name = concept["name"];
@@ -107,8 +113,13 @@ public class GameManager : MonoBehaviour {
                 }
 
                 SpeechConcept newConcept = new SpeechConcept(name, speech, trait, value);
-                m_concepts[name] = newConcept;
-                CreateButton(newConcept);
+                concepts[name] = newConcept;
+            }
+            Speeches.Concepts = concepts;
+
+            // Create buttons for the starting traits
+            foreach (string trait in m_traits) {
+                CreateButton (Speeches.GetNextWithTrait (trait));
             }
 
             // Load the audience types.
@@ -134,10 +145,14 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    void CreateButton(SpeechConcept concept) {
+    void CreateButton(SpeechConcept concept, int index = -1) {
         SpeechButton newButton = Instantiate<SpeechButton>(buttonPrefab);
         newButton.Initialize(concept);
-        newButton.transform.SetParent(buttonContainer.transform, false);
+        newButton.transform.SetParent (buttonContainer.transform, false);
+
+        if (index != -1) {
+            newButton.transform.SetSiblingIndex (index);
+        }
     }
 
     public void OpenGameOverScreen() {

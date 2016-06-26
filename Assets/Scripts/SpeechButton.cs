@@ -19,6 +19,7 @@ public class SpeechButton : MonoBehaviour {
     void OnClicked() {
         Dictionary<string, object> messageData = new Dictionary<string, object> ();
         messageData ["concept"] = m_concept;
+        messageData ["index"] = GetMyIndex();
         MessageManager.Instance.SendMessage (new Message(this, "ButtonPushed", messageData));
         GameObject.Destroy (gameObject);
     }
@@ -30,7 +31,18 @@ public class SpeechButton : MonoBehaviour {
 
     void UpdateButton() {
         if (m_button != null && m_concept != null) {
-            m_button.GetComponentInChildren<Text>().text = m_concept.name;
+            m_button.GetComponentInChildren<Text>().text = m_concept.trait;
         }
+    }
+
+    int GetMyIndex() {
+        SpeechButton[] siblings = transform.parent.gameObject.GetComponentsInChildren<SpeechButton> ();
+        for (int i = 0; i < siblings.Length; ++i) {
+            if (siblings[i] == this) {
+                return i;
+            }
+        }
+
+        return -1;
     }
 }
