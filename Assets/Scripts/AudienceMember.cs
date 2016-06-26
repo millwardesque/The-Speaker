@@ -77,7 +77,7 @@ public class AudienceMember : MonoBehaviour {
             // Audience members who've passed the player are harder to interest.
             float angle = Vector2.Angle (walkingDirection, GameManager.Instance.player.transform.position - transform.position);
             if (angle > 90f) {
-                penalty = m_isInScoreZone ? 0.15f : 0.3f;   // Penalty is less severe for members in the score zone
+                penalty = m_isInScoreZone ? 0.1f : 0.2f;   // Penalty is less severe for members in the score zone
             }
 
             float overallInterest = 0f;

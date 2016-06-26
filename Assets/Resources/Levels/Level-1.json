@@ -3,7 +3,7 @@
   "initial_audience_size": 5,
   "audience_spawn_time": 5,
   "level_duration": 30,
-  "concept_duration": 2,
+  "concept_duration": 1.5,
   "concepts": [
     { "name": "story-1", "speech": "My name is Archibald Jefferson King. Would you like to hear my story?", "trait": "Sympathy", "value": 1.0 },
     { "name": "story-2", "speech": "My dad died in the Golden War", "trait": "Sympathy", "value": 1.0 },
