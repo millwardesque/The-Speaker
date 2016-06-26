@@ -113,6 +113,7 @@ public class AudienceMember : MonoBehaviour {
     // Use this for initialization
 	void Start () {
         m_animator = GetComponent<AnimatedSprite> ();
+        State = AudienceMemberState.Disinterested;
 	}
 	
 	// Update is called once per frame
