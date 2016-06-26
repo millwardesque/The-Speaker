@@ -99,6 +99,9 @@ public class GameManager : MonoBehaviour {
             float conceptDuration = N ["concept_duration"].AsFloat;
             player.conceptDuration = conceptDuration;
 
+            float audienceSpawnTime = N ["audience_spawn_time"].AsFloat;
+            Audience.audienceSpawnTime = audienceSpawnTime;
+
             // Load the concepts.
             Dictionary<string, SpeechConcept> concepts = new Dictionary<string, SpeechConcept>();
             var conceptArray = N["concepts"].AsArray;
