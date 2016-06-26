@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -14,6 +15,7 @@ public class AudienceMember : MonoBehaviour {
     float intrigueThreshold = 0.75f;
     float interestThreshold = 0.9f;
     public Vector2 walkingDirection;
+    public GameObject speechBubble;
 
     bool m_isInScoreZone = false;
     AnimatedSprite m_animator;
@@ -22,11 +24,24 @@ public class AudienceMember : MonoBehaviour {
     public AudienceMemberState State {
         get { return m_state; }
         set {
-            if (value == AudienceMemberState.Intrigued) {
+            switch (value) {
+            case AudienceMemberState.Disinterested:
+                HideSpeechBubble ();
+                break;
+            case AudienceMemberState.Intrigued:
                 LookAtPlayer ();
-            }
-            else if (value == AudienceMemberState.Hooked) {
+                ShowSpeechBubble ("?");
+                break;
+            case AudienceMemberState.Interested:
                 LookAtPlayer ();
+                ShowSpeechBubble ("!");
+                break;
+            case AudienceMemberState.Hooked:
+                LookAtPlayer ();
+                ShowSpeechBubble ("$");
+                break;
+            default:
+                break;
             }
 
             m_state = value;
@@ -177,5 +192,14 @@ public class AudienceMember : MonoBehaviour {
                 m_animator.TriggerAnimationIfNotActive ("Stand Down");
             }
         }
+    }
+
+    void ShowSpeechBubble(string text) {
+        speechBubble.SetActive (true);
+        speechBubble.GetComponentInChildren<Text>().text = text;
+    }
+
+    void HideSpeechBubble() {
+        speechBubble.SetActive (false);
     }
 }
