@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class AudienceMember : MonoBehaviour {
-    public float minDistanceFromPlayer = 2f;
     public float walkSpeed = 1f;
     public float interestThreshold = 0f;
     public Vector2 walkingDirection;
 
+    bool m_isInScoreZone = false;
     AnimatedSprite m_animator;
 
     Dictionary<string, float> m_interests;
@@ -19,6 +19,11 @@ public class AudienceMember : MonoBehaviour {
     public float CurrentInterest {
         get {
             if (m_interests == null) {
+                return 0f;
+            }
+
+            float angle = Vector2.Angle (walkingDirection, GameManager.Instance.player.transform.position - transform.position);
+            if (!m_isInScoreZone && angle > 90f) {
                 return 0f;
             }
 
@@ -56,7 +61,26 @@ public class AudienceMember : MonoBehaviour {
 	void Update () {
         Vector3 distanceToPlayer = GameManager.Instance.player.transform.position - transform.position;
         Vector3 direction = distanceToPlayer.normalized;
-        if (distanceToPlayer.magnitude >= minDistanceFromPlayer || !IsInterested ()) {
+
+        if (m_isInScoreZone && IsInterested()) {
+            if (Mathf.Abs (direction.x) > Mathf.Abs(direction.y)) {
+                if (direction.x > 0f) {
+                    m_animator.TriggerAnimationIfNotActive ("Stand Right");
+                }
+                else if (direction.x < 0f) {
+                    m_animator.TriggerAnimationIfNotActive ("Stand Left");
+                }
+            }
+            else {
+                if (direction.y > 0f) {
+                    m_animator.TriggerAnimationIfNotActive ("Stand Up");
+                }
+                else if (direction.y < 0f) {
+                    m_animator.TriggerAnimationIfNotActive ("Stand Down");
+                }
+            }
+        }
+        else {
             if (!IsInterested ()) {
                 direction = walkingDirection;
             }
@@ -79,25 +103,8 @@ public class AudienceMember : MonoBehaviour {
                 }
             }
         }
-        else {
-            if (Mathf.Abs (direction.x) > Mathf.Abs(direction.y)) {
-                if (direction.x > 0f) {
-                    m_animator.TriggerAnimationIfNotActive ("Stand Right");
-                }
-                else if (direction.x < 0f) {
-                    m_animator.TriggerAnimationIfNotActive ("Stand Left");
-                }
-            }
-            else {
-                if (direction.y > 0f) {
-                    m_animator.TriggerAnimationIfNotActive ("Stand Up");
-                }
-                else if (direction.y < 0f) {
-                    m_animator.TriggerAnimationIfNotActive ("Stand Down");
-                }
-            }
-        }
 
+        // Sort sub-sprites by Y component to get the order correct.
         SpriteRenderer[] sprites = GetComponentsInChildren<SpriteRenderer> ();
         for (int i = 0; i < sprites.Length; ++i) {
             sprites[i].sortingOrder = (Mathf.RoundToInt(sprites[i].transform.position.y * 100f) - i) * -1;    
@@ -108,9 +115,18 @@ public class AudienceMember : MonoBehaviour {
         return CurrentInterest >= interestThreshold;
     }
 
-    public void OnTriggerEnter2D(Collider2D col) {
+    void OnTriggerEnter2D(Collider2D col) {
         if (col.tag == "Audience Out-of-bounds") {
             Destroy (gameObject);
+        }
+        else if (col.tag == "Score Zone") {
+            m_isInScoreZone = true;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D col) {
+        if (col.tag == "Score Zone") {
+            m_isInScoreZone = false;
         }
     }
 }

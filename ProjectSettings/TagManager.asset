@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Audience Out-of-bounds
+  - Score Zone
   layers:
   - Default
   - TransparentFX

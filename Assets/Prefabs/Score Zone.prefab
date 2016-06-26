@@ -13,7 +13,7 @@ GameObject:
   - 114: {fileID: 11460516}
   m_Layer: 0
   m_Name: Score Zone
-  m_TagString: Untagged
+  m_TagString: Score Zone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
